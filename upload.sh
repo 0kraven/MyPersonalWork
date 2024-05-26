@@ -22,15 +22,7 @@ echo "
 if [[ $# -ge 1 ]]; then
     commit_message="$1"
 else
-    read -p "Enter Commit-> " commit_message
-fi
-
-# Check if personal access token is provided as an argument
-if [[ $# -ge 2 ]]; then
-    token="$2"
-else
-    read -sp "Enter Personal Access Token: " token
-    echo
+    commit_message="IlluminateDreamer"
 fi
 
 # Add files to the staging area
@@ -40,4 +32,4 @@ git add .
 git commit -m "$commit_message"
 
 # Push the changes with the provided or entered personal access token
-echo "$token" | git push -u origin main
+git push -u origin main
