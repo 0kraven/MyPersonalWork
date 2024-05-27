@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Loop through all .sh files in the current directory
+for file in *.sh; do
+    # Check if the file exists and is a regular file
+    if [ -f "$file" ]; then
+        # Rename the file by replacing the .sh extension with .txt
+        new_file="${file%.sh}.txt"
+        mv "$file" "$new_file"
+        echo "Renamed $file to $new_file"
+    fi
+done
