@@ -20,13 +20,13 @@ class linkedlist{
             head = newNode;
         }
         void insert_at_tail(int data) {
-            if(!head){
-                cout << "ERROR: Linked list is empty.\n";
+            node* newNode = new node(data);
+            if(head == 0) {
+                head = newNode;
                 return;
             }
             node* temp = head;
-            while (temp->next)temp = temp->next;
-            node* newNode = new node(data);
+            while(temp->next!=0) temp = temp->next;
             temp->next = newNode;
         }
         void remove_at_head() {
@@ -41,12 +41,12 @@ class linkedlist{
         
         }
         void remove_at_tail() {
-            if(!head){
-                cout << "ERROR: Linked List is empty.\n";
+            if(!head || head->next){
+                cout << "ERROR: No Tail node Found!" << endl;
                 return;
             }
             node* temp = head;
-            while(temp->next->next)temp = temp->next;
+            while(temp->next && temp->next->next)temp = temp->next;
             delete temp->next;
             temp->next = nullptr;
             
