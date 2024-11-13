@@ -1,0 +1,24 @@
+class Engine:
+    def __init__(self):
+        print("Engine initialized.")
+    def speak(self):
+        print("Wheels Speaks.")
+class Wheels:
+	def __init__(self):
+		print("Wheels initialized.")
+	def speak(self):
+		print("Wheels Speaks.")
+
+class Car(Wheels, Engine):  # Child class inheriting from multiple parents
+    def __init__(self):
+        Wheels.__init__(self)  # Explicitly call Wheels.__init__
+        super().speak()  # Calls Engine.__init__ first due to MRO
+        
+		print("Car initialized.")
+# Create an instance of Car
+my_car = Car()
+print(Car.mro())
+# Output:
+# Engine initialized.
+# Wheels initialized.
+# Car initialized.
