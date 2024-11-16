@@ -2,7 +2,7 @@
 using namespace std;
 
 int main() {
-    int arr[] = {9,8,7,6,5,4,3,2,1,0};
+    int arr[] = {9,8,7,6,5,56,3,2,3,5,4,9,5,4,57,9,0,7,8,34,3,2,1,0};
     int j = sizeof(arr)/sizeof(arr[0]);
     while(j--) {
         for(int i = 0; i < j; i++) {
