@@ -1,16 +1,17 @@
 #include<iostream>
 using namespace std;
 
-struct node{
+struct TNode{
     int data;
     TNode* left;
     TNode* right;
 }
 
-class TNode{
+class BSTree{
     private:
-        
+        TNode* root;
     public:
+    
 
 }
 
