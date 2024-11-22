@@ -24,7 +24,8 @@ class DQueue{
             if(front == nullptr) {
                 front = newNode;
                 rear = newNode;
-            } else {
+            }
+            else {
                 newNode->next = front;
                 front->prev = newNode;
                 front = newNode;
