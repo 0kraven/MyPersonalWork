@@ -7,14 +7,14 @@ class node{
 
     node(int data = 0, node* next = nullptr) : data(data), next(next) {}
 }
-class Qeue{
+class Queue{
     private:
         node* front;
         node* rear;
         int size;
         int length;
     public:
-        Qeue(int size = 10): front(nullptr), rear(nullptr), size(size), length(0) {}
+        Queue(int size = 10): front(nullptr), rear(nullptr), size(size), length(0) {}
         void enqueue(int data){
             if(length == size) {
                 cout << "Queue overflow";
@@ -59,5 +59,4 @@ class Qeue{
                 dequeue();
             }
         }
-
 }
