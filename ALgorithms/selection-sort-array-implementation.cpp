@@ -1,25 +1,27 @@
 #include<iostream>
-using namespace std;
+using namespace std;    
 
-void selection_sort(int *arr, int size) {
-
-    for(int i = 0; i < size- 1; i++) {
-        int  key = i;
-        for(int j = i+1;j < size; j++) {
-            key = (arr[key] > arr[j]) ? j : key;
+void insertion_sort(int arr[], int size) {
+    int key, j;
+    for(int i = 0; i < size-1; i++) {
+        int key = i;
+        for(j = i+1; j < size; j ++) {
+            if(arr[key] > arr[j]) key = j;
         }
-        int temp = arr[i];
-        arr[i] = arr[key];
-        arr[key] = temp;
+        if (key != i) {
+            int temp = arr[key];
+            arr[key] = arr[i];
+            arr[i] = temp;
+        }
     }
-    
 }
+
 int main() {
-    int arr[] = {9,8,7,6,5,4,3,2,1,0};
     const int size = 10;
-    selection_sort(arr, size);
+    int arr[] = {10, 12, 8, 6, 3, 2, 1, 0, 13, 14};
+    insertion_sort(arr, size);
     for(int i = 0; i < size; i++) {
         cout << arr[i] << " ";
     }
-    return 0;
+
 }
