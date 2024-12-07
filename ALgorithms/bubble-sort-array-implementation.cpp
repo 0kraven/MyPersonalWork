@@ -3,14 +3,18 @@ using namespace std;
 
 void bubble_sort(int arr[], int size) {
     int j = size;
+    bool swapped;
     while(j--) {
+        swapped = false;
         for(int i = 0; i < j; i++) {
             if(arr[i] > arr[i+1]) {
                 int temp = arr[i];
                 arr[i] = arr[i+1];
                 arr[i+1] = temp;
+                swapped = true;
             }
         }
+        if(!swapped) break;
     }
 }
 
@@ -22,3 +26,5 @@ int main() {
     }
     
 }
+// Adding the swapped flag improves the best-case time complexity of Bubble Sort to O(n). This is beneficial when the array is already sorted or nearly sorted.
+// The outer loop still iterates up to size - 1 times in the worst case, maintaining the overall worst-case time complexity of O(n²).
