@@ -1,63 +1,46 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-int getMax(int arr[], int n) {
-    int maxVal = arr[0];
-    for (int i = 1; i < n; i++) {
-        if (arr[i] > maxVal) {
-            maxVal = arr[i];
-        }
-    }
-    return maxVal;
-}
+void radix_helper(int arr[], int size, int exp) {
+    int count[10] = {0}, output[size] = {0};
 
-void countingSort(int arr[], int n, int exp) {
-    int output[n];
-    int count[10] = {0};
+    for(int i = 0; i < size; i++)
+        count[(arr[i]/exp)%10]++;
+    
+    for(int i = 1; i < 10; i++) 
+        count[i] += count[i-1];
 
-    for (int i = 0; i < n; i++) {
-        count[(arr[i] / exp) % 10]++;
-    }
-
-    for (int i = 1; i < 10; i++) {
-        count[i] += count[i - 1];
-    }
-
-    for (int i = n - 1; i >= 0; i--) {
+    for(int i = size - 1; i >= 0; i--) {
         int digit = (arr[i] / exp) % 10;
         output[count[digit] - 1] = arr[i];
         count[digit]--;
     }
+    for(int i = 0; i < size; i++) {
+        arr[i] = output[i];  // Copy the output array to input array
+    }
 
-    for (int i = 0; i < n; i++) {
-        arr[i] = output[i];
+}
+
+void radix(int arr[], int size) {
+
+    int max = arr[0];
+
+    for(int i=0; i < size; i++)
+        if(arr[i] > max) 
+            max = arr[i];
+    
+    for(int exp = 1; max / exp > 0; exp *= 10) {
+        radix_helper(arr, size, exp);
     }
 }
 
-void radixSort(int arr[], int n) {
-    int maxVal = getMax(arr, n);
-    for (int exp = 1; maxVal / exp > 0; exp *= 10) {
-        countingSort(arr, n, exp);
-    }
-}
 
 int main() {
-    int arr[] = {170, 45, 75, 90, 802, 24, 2, 66};
-    int n = sizeof(arr) / sizeof(arr[0]);
+    int arr[] = {10, 23, 34, 45464564 ,4456456,456,4645,646,4, 64,5645,645, 456, 5678, 2114754};
+    radix(arr, sizeof(arr)/sizeof(arr[0]));
 
-    cout << "Original array:\n";
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < sizeof(arr)/sizeof(arr[0]); i++)
         cout << arr[i] << " ";
-    }
-    cout << endl;
-
-    radixSort(arr, n);
-
-    cout << "\nSorted array:\n";
-    for (int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
 
     return 0;
 }
