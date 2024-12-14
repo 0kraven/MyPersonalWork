@@ -37,25 +37,24 @@ class Tree{
         }
 
         // Post-order
+
         void postorder_helper(Node* root) {
             if (root == nullptr) return;
             postorder_helper(root->left);
             postorder_helper(root->right);
             cout << root->data << " ";
         }
-        void levelorder_helper(Node* root) {
-            if (root == nullptr) return;
+        void levelorder_helper(Node *root) {
             queue<Node*> q;
             q.push(root);
-
-            while (!q.empty()) {
-                Node* current = q.front();
-                q.pop();
+            while(!q.empty()){
+                node* current = q.front();
                 cout << current->data << " ";
-
-                if (current->left) q.push(current->left);
-                if (current->right) q.push(current->right);
+                q.pop();
+                if(current->left) q.push(current->left);
+                if(current->right) q.push(current->right);  // push right child before left child to ensure left child is processed first in case of left-right-root order.  // if left child is processed first, it will print root before left and right child.  // if right child is processed first, it will print
             }
+
         }
     public:
         

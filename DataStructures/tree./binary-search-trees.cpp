@@ -1,183 +1,100 @@
-#include <iostream>
+#include<iostream>
+#include<queue>
 using namespace std;
 
-// Binary Tree Node Class
-class TreeNode {
-public:
+struct Node{
     int data;
-    TreeNode* left;
-    TreeNode* right;
-
-    // Constructor
-    TreeNode(int value) : data(value), left(nullptr), right(nullptr) {}
+    Node* left;
+    Node* right;
+    Node(int data = 0, Node* left = 0, Node* right = 0) : data(data), left(left), right(right) {}
 };
 
-// Binary Tree Class
-class BinaryTree {
-private:
-    
-
-    // Helper function for recursive insertion
-    TreeNode* insert(TreeNode* node, int value) {
-        if (!node) return new TreeNode(value);
-        if (value < node->data) {
-            node->left = insert(node->left, value);
-        } else {
-            node->right = insert(node->right, value);
+class Tree{
+    private:
+        Node* root;
+        
+        Node* insert_helper(Node* node  = 0, int data = 0) {
+            if(node == 0) return new Node(data);
+            if(data < node->data) node->left = insert_helper(node->left, data);
+            else node->right = insert_helper(node->right, data);
+            return node;
         }
-        return node;
-    }
 
-    // Helper function for recursive search
-    bool search(TreeNode* node, int value) {
-        if (!node) return false;
-        if (node->data == value) return true;
-        if (value < node->data) {
-            return search(node->left, value);
+        // Pre-order
+        void preorder_helper(Node* root) {
+            if (root == nullptr) return;
+            cout << root->data << " ";
+            preorder_helper(root->left);
+            preorder_helper(root->right);
         }
-        return search(node->right, value);
-    }
 
-    // Helper function for inorder traversal
-    void inorderTraversal(TreeNode* node) {
-        if (node) {
-            inorderTraversal(node->left);
-            cout << node->data << " ";
-            inorderTraversal(node->right);
+        // In-order
+        void inorder_helper(Node* root) {
+            if (root == nullptr) return;
+            inorder_helper(root->left);
+            cout << root->data << " ";
+            inorder_helper(root->right);
         }
-    }
 
-    // Helper function for preorder traversal
-    void preorderTraversal(TreeNode* node) {
-        if (node) {
-            cout << node->data << " ";
-            preorderTraversal(node->left);
-            preorderTraversal(node->right);
+        // Post-order
+
+        void postorder_helper(Node* root) {
+            if (root == nullptr) return;
+            postorder_helper(root->left);
+            postorder_helper(root->right);
+            cout << root->data << " ";
         }
-    }
-
-    // Helper function for postorder traversal
-    void postorderTraversal(TreeNode* node) {
-        if (node) {
-            postorderTraversal(node->left);
-            postorderTraversal(node->right);
-            cout << node->data << " ";
-        }
-    }
-
-    // Helper function to find the minimum node in a tree
-    TreeNode* findMin(TreeNode* node) {
-        while (node && node->left) {
-            node = node->left;
-        }
-        return node;
-    }
-
-    // Helper function to delete a node
-    TreeNode* deleteNode(TreeNode* node, int value) {
-        if (!node) return nullptr;
-
-        if (value < node->data) {
-            node->left = deleteNode(node->left, value);
-        } else if (value > node->data) {
-            node->right = deleteNode(node->right, value);
-        } else {
-            // Node to be deleted found
-            if (!node->left) {
-                TreeNode* temp = node->right;
-                delete node;
-                return temp;
-            } else if (!node->right) {
-                TreeNode* temp = node->left;
-                delete node;
-                return temp;
+        void levelorder_helper(Node *root) {
+            queue<Node*> q;
+            q.push(root);
+            while(!q.empty()){
+                node* current = q.front();
+                cout << current->data << " ";
+                q.pop();
+                if(current->left) q.push(current->left);
+                if(current->right) q.push(current->right);  // push right child before left child to ensure left child is processed first in case of left-right-root order.  // if left child is processed first, it will print root before left and right child.  // if right child is processed first, it will print
             }
-            // Node with two children
-            TreeNode* temp = findMin(node->right);
-            node->data = temp->data;
-            node->right = deleteNode(node->right, temp->data);
+
         }
-        return node;
-    }
+    public:
+        
+        Tree(Node* root = 0) : root(root) {}
 
-    // Helper function to calculate the height of the tree
-    int height(TreeNode* node) {
-        if (!node) return -1;
-        return 1 + max(height(node->left), height(node->right));
-    }
 
-public:
-    TreeNode* root;
-    // Constructor
-    BinaryTree() : root(nullptr) {}
+        void insert(int data) {
+            root = insert_helper(root, data); // root is only updated when there is no root node
+        }
+        void preorder() {
+            preorder_helper(root);
+        }
+        void inorder() {
+            inorder_helper(root);
+        }
+        void postorder() {
+            postorder_helper(root);
+        }
+        void levelorder() {
+            levelorder_helper(root);
+        }
 
-    // Insert function
-    void insert(int value) {
-        root = insert(root, value);
-    }
-
-    // Search function
-    bool search(int value) {
-        return search(root, value);
-    }
-
-    // Delete function
-    void deleteValue(int value) {
-        root = deleteNode(root, value);
-    }
-
-    // Inorder Traversal
-    void inorder() {
-        inorderTraversal(root);
-        cout << endl;
-    }
-
-    // Preorder Traversal
-    void preorder() {
-        preorderTraversal(root);
-        cout << endl;
-    }
-
-    // Postorder Traversal
-    void postorder() {
-        postorderTraversal(root);
-        cout << endl;
-    }
-
-    // Height of the tree
-    int getHeight() {
-        return height(root);
-    }
 };
 
-// Main function
 int main() {
-    BinaryTree tree;
-
-    // Insert values
-
-
-    // Traversals
-    cout << "Inorder Traversal: ";
-    tree.inorder();
-
-    cout << "Preorder Traversal: ";
-    tree.preorder();
-
-    cout << "Postorder Traversal: ";
-    tree.postorder();
-
-    // Search
-    cout << "Search 7: " << (tree.search(7) ? "Found" : "Not Found") << endl;
-    cout << "Search 20: " << (tree.search(20) ? "Found" : "Not Found") << endl;
-
-    // Height
-    cout << "Height of tree: " << tree.getHeight() << endl;
-
-    // Delete a node
-    tree.deleteValue(10);
-    cout << "Inorder Traversal after deleting 10: ";
-    tree.inorder();
-    cout << "root: " << tree.root->data << endl;
+    Tree root;
+    root.insert(50);
+    root.insert(30);
+    root.insert(20);
+    root.insert(40);
+    root.insert(70);
+    root.insert(60);
+    root.insert(80);
+    cout << "Preorder traversal of the constructed tree is \n";
+    root.preorder();
+    cout << "\nInorder traversal of the constructed tree is \n";
+    root.inorder();
+    cout << "\nPostorder traversal of the constructed tree is \n";
+    root.postorder();
+    cout << "\nLevel order traversal of the constructed tree is \n";
+    root.levelorder();
     return 0;
 }
